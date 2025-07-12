@@ -10,7 +10,6 @@ import {
   Urbanist_600SemiBold,
   Urbanist_700Bold,
 } from '@expo-google-fonts/urbanist';
-
 import { store } from '../state/store';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
