@@ -1,17 +1,10 @@
-import { useEffect } from 'react';
+import { Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold, useFonts } from '@expo-google-fonts/urbanist';
 import { Stack } from 'expo-router';
-import { Provider } from 'react-redux';
 import * as SplashScreen from 'expo-splash-screen';
-
-import { useFonts } from '@expo-google-fonts/urbanist';
-import {
-  Urbanist_400Regular,
-  Urbanist_500Medium,
-  Urbanist_600SemiBold,
-  Urbanist_700Bold,
-} from '@expo-google-fonts/urbanist';
-import { store } from '../state/store';
+import { useEffect } from 'react';
+import { Provider } from 'react-redux';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { store } from '../state/store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,23 +15,15 @@ function useUrbanistFonts() {
     'Urbanist-SemiBold': Urbanist_600SemiBold,
     'Urbanist-Bold': Urbanist_700Bold,
   });
-
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
+    if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
-
   return fontsLoaded;
 }
 
 export default function RootLayout() {
   const fontsLoaded = useUrbanistFonts();
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
+  if (!fontsLoaded) return null;
   return (
     <Provider store={store}>
       <ErrorBoundary>
