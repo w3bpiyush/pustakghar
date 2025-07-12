@@ -106,11 +106,18 @@ const Register = () => {
     clearFields,
   } = useRegisterForm(dispatch, error, message);
 
-  // Auto-redirect on successful register
+  // Remove auto-redirect to home after register
+  // useEffect(() => {
+  //   if (user && user.token) {
+  //     router.replace('/');
+  //   }
+  // }, [user, router]);
+
+  // Listen for successful registration and redirect to OTP screen
   useEffect(() => {
     if (user && user.token) {
-      // Replace with your dashboard or home route
-      router.replace('/');
+      // Redirect to OTP verification screen, pass phone number (and token if needed)
+      router.push(`/(auth)/VerifyOtp?phone=${encodeURIComponent(user.user_number)}`);
     }
   }, [user, router]);
 

@@ -17,6 +17,10 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   message: string | null;
+  otpVerified?: boolean;
+  otpLoading?: boolean;
+  otpError?: string | null;
+  otpMessage?: string | null;
 }
 
 const initialState: AuthState = {
@@ -24,6 +28,10 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   message: null,
+  otpVerified: false,
+  otpLoading: false,
+  otpError: null,
+  otpMessage: null,
 };
 
 /**
@@ -112,6 +120,31 @@ export const loadUserFromStorage = createAsyncThunk<
   }
 });
 
+/**
+ * Thunk to verify OTP.
+ */
+export const verifyOtp = createAsyncThunk<
+  { message: string },
+  { phone: string; otp: string },
+  { rejectValue: string }
+>(
+  'auth/verifyOtp',
+  async ({ phone, otp }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${API_URL}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, otp }),
+      });
+      const data = await response.json();
+      if (!data.status) return rejectWithValue(data.message || 'OTP verification failed');
+      return { message: data.message };
+    } catch (error: any) {
+      return rejectWithValue(error?.message || 'Server Down');
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -119,6 +152,8 @@ const authSlice = createSlice({
     clearAuthError(state) {
       state.error = null;
       state.message = null;
+      state.otpError = null;
+      state.otpMessage = null;
     },
     setUserFromStorage(state, action: PayloadAction<UserData | null>) {
       state.user = action.payload;
@@ -164,6 +199,22 @@ const authSlice = createSlice({
       })
       .addCase(loadUserFromStorage.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.otpLoading = true;
+        state.otpError = null;
+        state.otpMessage = null;
+        state.otpVerified = false;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.otpLoading = false;
+        state.otpVerified = true;
+        state.otpMessage = action.payload.message;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.otpLoading = false;
+        state.otpVerified = false;
+        state.otpError = action.payload as string;
       });
   },
 });
