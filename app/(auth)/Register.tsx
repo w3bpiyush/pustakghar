@@ -24,67 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, loadUserFromStorage, registerUser } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
-
-// Custom hook for register form state and logic
-function useRegisterForm(dispatch: AppDispatch, error: string | null, message: string | null) {
-  const [fullName, setFullName] = React.useState('');
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const onFullNameChange = useCallback((text: string) => {
-    setFullName(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const onPhoneChange = useCallback((text: string) => {
-    setPhoneNumber(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const onPasswordChange = useCallback((text: string) => {
-    setPassword(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const onConfirmPasswordChange = useCallback((text: string) => {
-    setConfirmPassword(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const toggleShowPassword = useCallback(() => {
-    setShowPassword((prev) => !prev);
-  }, []);
-
-  const toggleShowConfirmPassword = useCallback(() => {
-    setShowConfirmPassword((prev) => !prev);
-  }, []);
-
-  const clearFields = useCallback(() => {
-    setFullName('');
-    setPhoneNumber('');
-    setPassword('');
-    setConfirmPassword('');
-  }, []);
-
-  return {
-    fullName,
-    phoneNumber,
-    password,
-    confirmPassword,
-    showPassword,
-    showConfirmPassword,
-    setFullName: onFullNameChange,
-    setPhoneNumber: onPhoneChange,
-    setPassword: onPasswordChange,
-    setConfirmPassword: onConfirmPasswordChange,
-    toggleShowPassword,
-    toggleShowConfirmPassword,
-    clearFields,
-  };
-}
+import { useRegisterForm } from './hooks/useRegisterForm';
 
 const Register = () => {
   const router = useRouter();

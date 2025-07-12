@@ -3,7 +3,7 @@ import Metrics from '@/constants/Metrics';
 import { scale, verticalScale } from '@/utils/styling';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -20,12 +20,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, verifyOtp } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
+import { useVerifyOtpForm } from './hooks/useVerifyOtpForm';
 
 const VerifyOtp = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { phone } = useLocalSearchParams<{ phone?: string }>();
-  const [otp, setOtp] = useState('');
+  const { otp, setOtp, clearOtp } = useVerifyOtpForm();
   const { otpLoading, otpError, otpMessage, otpVerified } = useSelector((state: RootState) => state.auth as AuthState);
 
   React.useEffect(() => {
@@ -44,8 +45,8 @@ const VerifyOtp = () => {
       return;
     }
     dispatch(verifyOtp({ phone: String(phone), otp }));
-    setOtp('');
-  }, [dispatch, phone, otp]);
+    clearOtp();
+  }, [dispatch, phone, otp, clearOtp]);
 
   React.useEffect(() => {
     return () => {

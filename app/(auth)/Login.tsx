@@ -24,42 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, loadUserFromStorage, loginUser } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
-
-// Custom hook for login form state and logic
-function useLoginForm(dispatch: AppDispatch, error: string | null, message: string | null) {
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const onPhoneChange = useCallback((text: string) => {
-    setPhoneNumber(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const onPasswordChange = useCallback((text: string) => {
-    setPassword(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
-
-  const toggleShowPassword = useCallback(() => {
-    setShowPassword((prev) => !prev);
-  }, []);
-
-  const clearFields = useCallback(() => {
-    setPhoneNumber('');
-    setPassword('');
-  }, []);
-
-  return {
-    phoneNumber,
-    password,
-    showPassword,
-    setPhoneNumber: onPhoneChange,
-    setPassword: onPasswordChange,
-    toggleShowPassword,
-    clearFields,
-  };
-}
+import { useLoginForm } from './hooks/useLoginForm';
 
 const Login = () => {
   const router = useRouter();
