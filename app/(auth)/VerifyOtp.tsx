@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, verifyOtp } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
-import { useVerifyOtpForm } from './hooks/useVerifyOtpForm';
+import { useVerifyOtpForm } from '../../hooks/useVerifyOtpForm';
 
 const VerifyOtp = () => {
   const router = useRouter();

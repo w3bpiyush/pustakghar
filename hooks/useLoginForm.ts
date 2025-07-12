@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { clearAuthError } from '../../../state/authSlice';
-import type { AppDispatch } from '../../../state/store';
+import { clearAuthError } from '../state/authSlice';
+import type { AppDispatch } from '../state/store';
 
 export function useLoginForm(dispatch: AppDispatch, error: string | null, message: string | null) {
   const [phoneNumber, setPhoneNumber] = useState('');

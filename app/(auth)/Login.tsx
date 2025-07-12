@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, loadUserFromStorage, loginUser } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
-import { useLoginForm } from './hooks/useLoginForm';
+import { useLoginForm } from '../../hooks/useLoginForm';
 
 const Login = () => {
   const router = useRouter();
