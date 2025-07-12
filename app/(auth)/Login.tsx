@@ -43,7 +43,6 @@ const Login = () => {
   // Auto-redirect on successful login
   useEffect(() => {
     if (user && user.token) {
-      // Replace with your dashboard or home route
       router.replace('/');
     }
   }, [user, router]);
