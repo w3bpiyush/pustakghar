@@ -43,6 +43,8 @@ const Login = () => {
   // Auto-redirect on successful login
   useEffect(() => {
     if (user && user.token) {
+      // redirect to your home screen 
+      //Refactor authentication hooks: update import paths and create useRegisterForm, useVerifyOtpForm for improved structure
       router.replace('/');
     }
   }, [user, router]);
