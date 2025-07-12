@@ -16,8 +16,8 @@ import {
 } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { AuthState } from '../../state/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AuthState } from '../../state/authSlice';
 import { clearAuthError, verifyOtp } from '../../state/authSlice';
 import type { AppDispatch, RootState } from '../../state/store';
 
@@ -44,6 +44,7 @@ const VerifyOtp = () => {
       return;
     }
     dispatch(verifyOtp({ phone: String(phone), otp }));
+    setOtp('');
   }, [dispatch, phone, otp]);
 
   React.useEffect(() => {
