@@ -1,21 +1,29 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { clearAuthError } from '../state/authSlice';
 import type { AppDispatch } from '../state/store';
 
-export function useLoginForm(dispatch: AppDispatch, error: string | null, message: string | null) {
+interface UseLoginFormProps {
+  dispatch: AppDispatch;
+  error: string | null;
+  message: string | null;
+}
+
+export function useLoginForm({ dispatch, error, message }: UseLoginFormProps) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const onPhoneChange = useCallback((text: string) => {
-    setPhoneNumber(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
+  const hasFeedback = !!error || !!message;
 
-  const onPasswordChange = useCallback((text: string) => {
+  const handlePhoneChange = useCallback((text: string) => {
+    setPhoneNumber(text);
+    if (hasFeedback) dispatch(clearAuthError());
+  }, [dispatch, hasFeedback]);
+
+  const handlePasswordChange = useCallback((text: string) => {
     setPassword(text);
-    if (error || message) dispatch(clearAuthError());
-  }, [dispatch, error, message]);
+    if (hasFeedback) dispatch(clearAuthError());
+  }, [dispatch, hasFeedback]);
 
   const toggleShowPassword = useCallback(() => {
     setShowPassword((prev) => !prev);
@@ -26,13 +34,13 @@ export function useLoginForm(dispatch: AppDispatch, error: string | null, messag
     setPassword('');
   }, []);
 
-  return {
+  return useMemo(() => ({
     phoneNumber,
     password,
     showPassword,
-    setPhoneNumber: onPhoneChange,
-    setPassword: onPasswordChange,
+    setPhoneNumber: handlePhoneChange,
+    setPassword: handlePasswordChange,
     toggleShowPassword,
     clearFields,
-  };
-} 
+  }), [phoneNumber, password, showPassword, handlePhoneChange, handlePasswordChange, toggleShowPassword, clearFields]);
+}
