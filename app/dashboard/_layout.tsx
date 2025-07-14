@@ -23,7 +23,7 @@ const TAB_LABELS = {
 
 const TAB_ORDER = ['home', 'mybooks', 'sellnow', 'category', 'account'] as const;
 
-export default function LuxuryTabBar(props: BottomTabBarProps) {
+export default function TabBar(props: BottomTabBarProps) {
 
     if (!props || !props.state || !props.state.routes) {
     return null; // or a fallback UI
