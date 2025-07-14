@@ -1,5 +1,5 @@
 import { Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold, useFonts } from '@expo-google-fonts/urbanist';
-import { Stack } from 'expo-router';
+import { Slot,  } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -26,9 +26,9 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
   return (
     <Provider store={store}>
-      <ErrorBoundary>
-        <Stack screenOptions={{ headerShown: false }} />
-      </ErrorBoundary>
+        <ErrorBoundary>
+          <Slot />
+        </ErrorBoundary>
     </Provider>
   );
 }

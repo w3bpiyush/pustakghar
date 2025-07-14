@@ -13,7 +13,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      router.replace("/(auth)/Login");
+      router.replace("/dashboard/home");
     }, 1500);
   }, []);
 
@@ -30,7 +30,6 @@ export default function SplashScreen() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,3 +53,4 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
+
