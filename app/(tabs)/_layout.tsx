@@ -1,9 +1,18 @@
-import React from 'react'
 import { Text } from 'react-native'
+import { Provider } from 'react-redux';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { store } from '../../state/store';
+import { Slot, Stack,  } from 'expo-router';
 
 const _layout = () => {
   return (
-    <Text>_layout</Text>
+    <Provider store={store}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <ErrorBoundary>
+          <Slot />
+        </ErrorBoundary>
+        </Stack>
+    </Provider>
   )
 }
 
