@@ -7,11 +7,9 @@ import { Slot, Stack,  } from 'expo-router';
 const _layout = () => {
   return (
     <Provider store={store}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <ErrorBoundary>
-          <Slot />
-        </ErrorBoundary>
-        </Stack>
+      <ErrorBoundary>
+        <Slot />
+      </ErrorBoundary>
     </Provider>
   )
 }
