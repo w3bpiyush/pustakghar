@@ -13,7 +13,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      router.replace("/dashboard/home");
+      router.replace("/(tabs)/home/Home");
     }, 1500);
   }, []);
 
