@@ -1,5 +1,6 @@
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { router } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,33 +8,36 @@ import Colors from '../constants/Color';
 import Metrics from '../constants/Metrics';
 
 const TAB_ICONS = [
-  { name: 'home-outline', lib: Ionicons, label: 'Home', route: 'home' },
-  { name: 'book-outline', lib: Ionicons, label: 'My Books', route: 'mybooks' },
-  { name: 'plus', lib: MaterialCommunityIcons, label: '', isCenter: true, route: 'account' }, // Center tab navigates to Account
-  { name: 'apps', lib: MaterialCommunityIcons, label: 'Category', route: 'category' },
-  { name: 'user', lib: Feather, label: 'Account', route: 'sellnow' }, // Rightmost tab navigates to Sell Now
+  { name: 'home-outline', lib: Ionicons, label: 'Home' },
+  { name: 'book-outline', lib: Ionicons, label: 'My Books' },
+  { name: 'plus', lib: MaterialCommunityIcons, label: '', isCenter: true },
+  { name: 'apps', lib: MaterialCommunityIcons, label: 'Category' },
+  { name: 'user', lib: Feather, label: 'Account' },
 ];
+
+const TAB_ROUTES = ['home', 'books', 'sellbooks', 'category', 'profile'];
 
 export default function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const height = 64 + insets.bottom;
-  const tabWidth = 100 / TAB_ICONS.length;
+  const tabWidth = 100 / state.routes.length;
 
-  const activeIndex = typeof state.index === 'number' && state.index >= 0 && state.index < TAB_ICONS.length ? state.index : 0;
+  const activeIndex = typeof state.index === 'number' && state.index >= 0 && state.index < state.routes.length ? state.index : 0;
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom, height }]}>  
       <View style={styles.row}>
-        {TAB_ICONS.map((tab, idx) => {
+        {state.routes.map((route, idx) => {          
+          const tab = TAB_ICONS[idx];      
           const isFocused = activeIndex === idx;
           const onPress = () => {
             if (isFocused) return;
-            navigation.navigate(tab.route);
+            router.push('/' + TAB_ROUTES[idx] as any);
           };
           const Icon = tab.lib;
           if (tab.isCenter) {
             return (
-              <View key={tab.label} style={styles.centerTabWrap} pointerEvents="box-none">
+              <View key={route.key} style={styles.centerTabWrap} pointerEvents="box-none">
                 <TouchableOpacity
                   accessibilityRole="button"
                   accessibilityState={isFocused ? { selected: true } : {}}
@@ -49,7 +53,7 @@ export default function CustomTabBar({ state, navigation }: BottomTabBarProps) {
           }
           return (
             <TouchableOpacity
-              key={tab.label}
+              key={route.key}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               onPress={onPress}
